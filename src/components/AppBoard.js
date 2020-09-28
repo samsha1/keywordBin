@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SearchBoard from "./SearchBoard";
+import TabsBoard from "./TabsBoard";
 import axios from "axios";
 
 class AppBoard extends Component {
@@ -8,6 +9,7 @@ class AppBoard extends Component {
     this.state = {
       mainLoader: false,
       searchInput: "",
+      tabsData: {},
       processCount: "1/8",
       suggestionCount: "",
     };
@@ -29,15 +31,18 @@ class AppBoard extends Component {
       .then((res) => {
         console.log("Got response Id: " + res.data.id);
         axios.get(`status?id=${res.data.id}`).then((resStat) => {
-          console.log(resStat.data.data);
           let processStat = resStat.data.message;
           let processCount = resStat.data.processing_status;
           if (processStat === "complete") {
             console.log("Status Completed");
-            this.setState({ mainLoader: false, processCount: "1/8" });
+            this.setState({
+              mainLoader: false,
+              processCount: "1/8",
+              tabsData: resStat.data.data,
+            });
           } else {
             console.log("Still Need Processing");
-            this.setState({ processCount });
+            this.setState({ processCount, tabsData: resStat.data.data });
             setTimeout(() => {
               this.handleSearch();
             }, 5000);
@@ -48,14 +53,19 @@ class AppBoard extends Component {
   };
 
   render() {
-    const { mainLoader, searchInput } = this.state;
+    const { mainLoader, searchInput, tabsData } = this.state;
     return (
-      <div>
+      <div className="container">
         <SearchBoard
           data={this.state}
           onUpdateHandler={this.onUpdateHandler}
           handleSearch={this.handleSearch}
         />
+        {Object.keys(tabsData).length > 0 ? (
+          <TabsBoard data={this.state} />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

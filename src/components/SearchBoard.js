@@ -52,10 +52,10 @@ export default function SearchBoard(props) {
     );
   }
   return (
-    <div className="container">
+    <div>
       <div className="row">
-        <div className="col-12 text-center">
-          <Typography variant="h4" style={{ fontWeight: "800" }}>
+        <div className="col-12 text-center mt-4">
+          <Typography variant="h4" style={{ fontWeight: "800"}}>
             Keyword Generator
           </Typography>
         </div>

@@ -4,9 +4,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Switch from "@material-ui/core/Switch";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import "./App.css";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
   orange,
@@ -102,11 +101,7 @@ export default function Dashboard() {
           </AppBar>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Container maxWidth="xl" className={classes.container}>
-              <Paper elevation={3} style={{ padding: "30px" }}>
-                <AppBoard />
-              </Paper>
-            </Container>
+            <AppBoard />
           </main>
         </div>
       </ThemeProvider>
