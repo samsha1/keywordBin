@@ -1,14 +1,17 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const express = require('express');
+const path = require("path");
+const express = require("express");
 const app = express();
-const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 7000;
-app.use(express.static(publicPath));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
- });
-app.listen(port, () => {
-    console.log(`Server is up on port ${port}!`);
- });
+//Server Static assets if in a production
+if (process.env.NODE_ENV === "production") {
+  //Set static folder
+  app.use(express.static("build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
