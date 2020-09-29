@@ -1,51 +1,66 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
 import Tabs from "@material-ui/core/Tabs";
 import { CircularProgress } from "@material-ui/core";
+import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
 import TabContext from "@material-ui/lab/TabContext";
-import TabList from "@material-ui/lab/TabList";
+import Paper from "@material-ui/core/Paper";
+import Chip from "@material-ui/core/Chip";
+import Grid from "@material-ui/core/Grid";
 import TabPanel from "@material-ui/lab/TabPanel";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-  //   labelContainer: {
-  //     width: "auto",
-  //     padding: 0,
-  //   },
-  //   iconLabelWrapper: {
-  //     flexDirection: "row",
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//     backgroundColor: theme.palette.background.paper,
+//   },
+//   //   labelContainer: {
+//   //     width: "auto",
+//   //     padding: 0,
+//   //   },
+//   //   iconLabelWrapper: {
+//   //     flexDirection: "row",
 
-  //   },
-}));
+//   //   },
+// }));
 
-const ProcessTabsData = (tabData) => {
-  console.log(Object.keys(tabData.data));
-  var html = "";
-  Object.keys(tabData.data).map((k, v) => {
-    console.log(`Key: ${k} Value: ${v}`);
-    let conData = tabData.data[k];
-    conData.map((item) => {
-      console.log(item);
-      html = (
-        <div className="keyword-section" key={k}>
-          <h2>{k}</h2>
-        </div>
-      );
-    });
-  });
-  return html;
+const headCells = [
+  { id: "1", label: "Alphabet" },
+  { id: "2", label: "Comparison" },
+  { id: "3", label: "Local" },
+  { id: "4", label: "Numbers" },
+  { id: "5", label: "Phrases" },
+  { id: "6", label: "Questions" },
+  { id: "7", label: "Research" },
+  { id: "8", label: "Shopping" },
+];
+
+const setHtmlText = (val) => <text dangerouslySetInnerHTML={{ __html: val }}></text>;
+
+const ProcessTabsData = ({ data, header }) => {
+  return (
+    <Paper elevation={3} style={{ padding: "30px" }}>
+      <Typography variant="h4" style={{ fontWeight: "500" }}>
+        {header}
+      </Typography>
+      {data.map((val, index) => {
+        let newVal = setHtmlText(val);
+        return (
+          <span className="d-flex pt-3" key={index}>
+            <Chip label={newVal} />
+          </span>
+        );
+      })}
+    </Paper>
+  );
 };
 
 export default function TabsBoard(props) {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [value, setValue] = React.useState("1");
   const tabsData = props.data.tabsData;
-  console.log(tabsData);
+  //console.log(tabsData.Alphabet);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -60,117 +75,44 @@ export default function TabsBoard(props) {
             onChange={handleChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="fullWidth"
+            variant="scrollable"
             scrollButtons="auto"
-            aria-label="simple tab"
+            aria-label="scrollable auto tabs"
           >
-            <Tab
-              label="Alphabet"
-              value="1"
-              //   classes={{
-              //     wrapper: classes.iconLabelWrapper,
-              //     labelContainer: classes.labelContainer,
-              //   }}
-              icon={
-                Object.keys(tabsData["Alphabet"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Comparison"
-              value="2"
-              icon={
-                Object.keys(tabsData["Comparison"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Local"
-              value="3"
-              icon={
-                Object.keys(tabsData["Local"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Numbers"
-              value="4"
-              icon={
-                Object.keys(tabsData["Numbers"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Phrases"
-              value="5"
-              icon={
-                Object.keys(tabsData["Phrases"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Questions"
-              value="6"
-              icon={
-                Object.keys(tabsData["Questions"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Research"
-              value="7"
-              icon={
-                Object.keys(tabsData["Research"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
-            <Tab
-              label="Shopping"
-              value="8"
-              icon={
-                Object.keys(tabsData["Shopping"]).length === 0 ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  ""
-                )
-              }
-            />
+            {headCells.map((headCell) => (
+              <Tab
+                label={headCell.label}
+                value={headCell.id}
+                key={headCell.id}
+                icon={
+                  Object.keys(tabsData[headCell.label]).length === 0 ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    <CheckCircleOutlineRoundedIcon size={20} />
+                  )
+                }
+              />
+            ))}
           </Tabs>
-          <TabPanel value="1">
-            {Object.keys(tabsData["Alphabet"]).length > 0 ? (
-              <ProcessTabsData data={tabsData["Alphabet"]} />
-            ) : (
-              ""
-            )}
-          </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
-          <TabPanel value="4">Item One</TabPanel>
-          <TabPanel value="5">Item Two</TabPanel>
-          <TabPanel value="6">Item Three</TabPanel>
-          <TabPanel value="7">Item One</TabPanel>
-          <TabPanel value="8">Item Two</TabPanel>
+          {headCells.map((headCell) => (
+            <TabPanel value={headCell.id} key={headCell.id}>
+              <Grid container spacing={6} direction="row">
+                {Object.keys(tabsData[headCell.label]).length > 0
+                  ? Object.keys(tabsData[headCell.label]).map((k, v) => {
+                      return (
+                        <Grid item xs={6} key={k}>
+                          <ProcessTabsData
+                            data={tabsData[headCell.label][k]}
+                            header={k}
+                            key={k}
+                          />
+                        </Grid>
+                      );
+                    })
+                  : ""}
+              </Grid>
+            </TabPanel>
+          ))}
         </TabContext>
       </div>
     </div>

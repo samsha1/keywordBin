@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2),
   },
+  "&.Mui-selected": {
+    outline: "none",
+  },
 }));
 
 export default function Dashboard() {

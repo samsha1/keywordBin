@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SearchBoard from "./SearchBoard";
 import TabsBoard from "./TabsBoard";
 import axios from "axios";
+import Typography from "@material-ui/core/Typography";
 
 class AppBoard extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class AppBoard extends Component {
     this.state = {
       mainLoader: false,
       searchInput: "",
-      tabsData: {},
+      tabsData: [],
       processCount: "1/8",
       suggestionCount: "",
     };
@@ -39,10 +40,15 @@ class AppBoard extends Component {
               mainLoader: false,
               processCount: "1/8",
               tabsData: resStat.data.data,
+              suggestionCount: resStat.data.suggestions_count,
             });
           } else {
             console.log("Still Need Processing");
-            this.setState({ processCount, tabsData: resStat.data.data });
+            this.setState({
+              processCount,
+              tabsData: resStat.data.data,
+              suggestionCount: resStat.data.suggestions_count,
+            });
             setTimeout(() => {
               this.handleSearch();
             }, 5000);
@@ -53,7 +59,7 @@ class AppBoard extends Component {
   };
 
   render() {
-    const { mainLoader, searchInput, tabsData } = this.state;
+    const { tabsData, suggestionCount } = this.state;
     return (
       <div className="container">
         <SearchBoard
@@ -61,6 +67,15 @@ class AppBoard extends Component {
           onUpdateHandler={this.onUpdateHandler}
           handleSearch={this.handleSearch}
         />
+        {suggestionCount ? (
+          <div className="mt-3">
+            <Typography variant="h4" style={{ fontWeight: "400" }}>
+              Total Keywords: {suggestionCount}
+            </Typography>
+          </div>
+        ) : (
+          ""
+        )}
         {Object.keys(tabsData).length > 0 ? (
           <TabsBoard data={this.state} />
         ) : (
