@@ -1,5 +1,10 @@
 {
   "name": "keywordbin",
+  "author": {
+    "name": "Samrat Shakya",
+    "email": "samratshakya5@gmail.com",
+    "url": "http://samratshakya.com.np"
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
