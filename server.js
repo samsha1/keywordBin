@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const express = require("express");
-const app = express();
 const port = process.env.PORT || 7000;
 //Server Static assets if in a production
 if (process.env.NODE_ENV === "production") {
