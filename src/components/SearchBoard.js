@@ -9,9 +9,10 @@ export default function SearchBoard(props) {
   const [progress, setProgress] = React.useState(0);
   React.useEffect(() => {
     setProgress((prevProgress) =>
-      prevProgress >= 100 ? 0 : prevProgress + 13.2
+      (props.data.processCount === "1/8") ? 13 :
+        prevProgress >= 100 ? 0 : prevProgress + 13.2
     );
-  }, [props.data.processCount, setProgress]);
+  }, [props.data.processCount]);
 
   const handleChange = (newValue) => {
     props.onUpdateHandler({ searchInput: newValue });

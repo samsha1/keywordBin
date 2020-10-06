@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const [darkState, setDarkState] = useState(false);
-  const palletType = darkState ? "light" : "dark";
-  const mainPrimaryColor = darkState ? lightBlue[600] : orange[500];
+  const palletType = darkState ? "dark" : "light";
+  const mainPrimaryColor = darkState ? orange[500] :  lightBlue[600];
   const mainSecondaryColor = darkState ? deepPurple[500] : deepOrange[900];
   const darkTheme = createMuiTheme({
     palette: {
@@ -89,7 +89,7 @@ export default function Dashboard() {
       <ThemeProvider theme={darkTheme}>
         <div className={classes.root}>
           <CssBaseline />
-          <AppBar position="absolute" className={classes.appBar}>
+          <AppBar className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
               <Typography
                 component="p"

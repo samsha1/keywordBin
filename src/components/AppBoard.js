@@ -28,34 +28,32 @@ class AppBoard extends Component {
     this.setState({ mainLoader: true });
     console.log("Search Submitted: " + searchInput);
     axios
-      .get(`http://keywordbin.com/search?keyword=${searchInput}`)
+      .get(`search?keyword=${searchInput}`)
       .then((res) => {
         console.log("Got response Id: " + res.data.id);
-        axios
-          .get(`http://keywordbin.com/status?id=${res.data.id}`)
-          .then((resStat) => {
-            let processStat = resStat.data.message;
-            let processCount = resStat.data.processing_status;
-            if (processStat === "complete") {
-              console.log("Status Completed");
-              this.setState({
-                mainLoader: false,
-                processCount: "1/8",
-                tabsData: resStat.data.data,
-                suggestionCount: resStat.data.suggestions_count,
-              });
-            } else {
-              console.log("Still Need Processing");
-              this.setState({
-                processCount,
-                tabsData: resStat.data.data,
-                suggestionCount: resStat.data.suggestions_count,
-              });
-              setTimeout(() => {
-                this.handleSearch();
-              }, 5000);
-            }
-          });
+        axios.get(`status?id=${res.data.id}`).then((resStat) => {
+          let processStat = resStat.data.message;
+          let processCount = resStat.data.processing_status;
+          if (processStat === "complete") {
+            console.log("Status Completed");
+            this.setState({
+              mainLoader: false,
+              processCount: "1/8",
+              tabsData: resStat.data.data,
+              suggestionCount: resStat.data.suggestions_count,
+            });
+          } else {
+            console.log("Still Need Processing");
+            this.setState({
+              processCount,
+              tabsData: resStat.data.data,
+              suggestionCount: resStat.data.suggestions_count,
+            });
+            setTimeout(() => {
+              this.handleSearch();
+            }, 5000);
+          }
+        });
       })
       .catch((e) => console.log(e.response.data));
   };
